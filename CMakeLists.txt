@@ -9,4 +9,4 @@ set(BOOST_ROOT /opt/homebrew/Cellar/boost/1.76.0)
 find_package(Boost 1.76.0)
 include_directories(${Boost_INCLUDE_DIR})
 
-add_executable(asio_basic_client_k main.cpp boost_basic_client.cpp boost_basic_client.h)
+add_executable(asio_basic_client_k main.cpp Boost_basic_client.cpp Boost_basic_client.h)

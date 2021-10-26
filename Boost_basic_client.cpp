@@ -2,17 +2,17 @@
 // Created by Sandrino Becirbegovic on 26.10.21.
 //
 
-#include "boost_basic_client.h"
+#include "Boost_basic_client.h"
 #include <iostream>
 
 
-boost_basic_client::boost_basic_client( CommunicationConfig_t commConfig_, std::string& defaultMimeType_)
+Boost_basic_client::Boost_basic_client( CommunicationConfig_t commConfig_, std::string& defaultMimeType_)
                                        : name{ commConfig_.host }, commConfig{ std::move( commConfig_ )}
 {
 
 }
 
-boost_basic_client::~boost_basic_client()
+Boost_basic_client::~Boost_basic_client()
 {
     // Gracefully close the socket
     beast::error_code ec;
@@ -28,7 +28,7 @@ boost_basic_client::~boost_basic_client()
 }
 
 
-boost_basic_client::BCSendMessageReturn_t boost_basic_client::sendMessage(
+Boost_basic_client::BCSendMessageReturn_t Boost_basic_client::sendMessage(
         const boost::beast::http::verb &method, const std::string &resource,
         const std::string &content, const std::string &mimeType)
 {
@@ -64,7 +64,7 @@ boost_basic_client::BCSendMessageReturn_t boost_basic_client::sendMessage(
 }
 
 //-------------------------------------------------------------------------------
-void boost_basic_client::connect()
+void Boost_basic_client::connect()
 {
     error_code error;
     // Look up the domain name

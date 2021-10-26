@@ -23,7 +23,7 @@ struct CommunicationConfig_t
     std::string     target;
 };
 
-class boost_basic_client
+class Boost_basic_client
 {
 
 private:
@@ -43,10 +43,10 @@ public:
 
     // Constructor
     // Fancy text
-    boost_basic_client( CommunicationConfig_t commConfig_, std::string& defaultMimeType_ );
+    Boost_basic_client( CommunicationConfig_t commConfig_, std::string& defaultMimeType_ );
 
     // Destructor
-   ~boost_basic_client() ;
+   ~Boost_basic_client() ;
 
     // Function to send a mesage to the HTTPS - Server
     // @return weird tuple stuff
