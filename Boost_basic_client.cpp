@@ -58,7 +58,7 @@ Boost_basic_client::BCSendMessageReturn_t Boost_basic_client::sendMessage(
     http::read(stream, buffer, res);
 
     // Write the message to standard out
-    //std::cout << res << std::endl;
+    std::cout << res.body() << std::endl;
 
     return {true , res.result() , res.body() };
 }

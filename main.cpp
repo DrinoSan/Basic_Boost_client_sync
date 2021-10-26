@@ -11,8 +11,8 @@ int main()
 
     std::string resource{"RESOURCE"};
     std::string content{"CONTENT"};
-    Boost_basic_client::BCSendMessageReturn_t x = client.sendMessage(boost::beast::http::verb::post, resource, content, mime);
-    std::cout << x.responseContent << std::endl;
+    Boost_basic_client::BCSendMessageReturn_t x = client.sendMessage(boost::beast::http::verb::get, resource, content, mime);
+    //std::cout << x.responseContent << std::endl;
 
 
     return 0;
