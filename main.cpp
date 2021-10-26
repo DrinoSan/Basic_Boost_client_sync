@@ -5,7 +5,6 @@ int main()
 {
 
     struct CommunicationConfig_t comm = { 80, "www.foobartester.free.beeceptor.com", 11, "https://foobartester.free.beeceptor.com"};
-    std::cout << "Hello, World!" << std::endl;
     std::string mime{"application/json"};
     boost_basic_client client(comm, mime);
     client.connect();

@@ -5,15 +5,32 @@
 #include "boost_basic_client.h"
 #include <iostream>
 
+
 boost_basic_client::boost_basic_client( CommunicationConfig_t commConfig_, std::string& defaultMimeType_)
                                        : name{ commConfig_.host }, commConfig{ std::move( commConfig_ )}
 {
 
 }
 
-boost_basic_client::BCSendMessageReturn_t
-boost_basic_client::sendMessage(const boost::beast::http::verb &method, const std::string &resource,
-                                const std::string &content, const std::string &mimeType)
+boost_basic_client::~boost_basic_client()
+{
+    // Gracefully close the socket
+    beast::error_code ec;
+    stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+
+    // not_connected happens sometimes
+    // so don't bother reporting it.
+    //
+    if(ec && ec != beast::errc::not_connected)
+        throw beast::system_error{ec};
+
+    // If we get here then the connection is closed gracefully
+}
+
+
+boost_basic_client::BCSendMessageReturn_t boost_basic_client::sendMessage(
+        const boost::beast::http::verb &method, const std::string &resource,
+        const std::string &content, const std::string &mimeType)
 {
     // Set up an HTTP GET request message
     http::request<boost::beast::http::string_body> req{ method, commConfig.target, commConfig.version};
@@ -49,31 +66,9 @@ boost_basic_client::sendMessage(const boost::beast::http::verb &method, const st
 //-------------------------------------------------------------------------------
 void boost_basic_client::connect()
 {
-    // If http:://www.foo-bar.com is needed use resolver boost::asio
-    //socket.connect( boost::asio::ip::tcp::endpoint( boost::asio::ip::address::from_string("127.0.0.1"), 1234 ));
     error_code error;
-
-
-    //boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve("www.footer.free.beeceptor.com", "https", error);
-
     // Look up the domain name
     auto const results = resolver.resolve(commConfig.host, std::to_string(commConfig.port));
     //boost::asio::connect(socket,endpoints.begin(),endpoints.end(), error);
     stream.connect(results);
 }
-
-boost_basic_client::~boost_basic_client()
-{
-    // Gracefully close the socket
-    beast::error_code ec;
-    stream.socket().shutdown(tcp::socket::shutdown_both, ec);
-
-    // not_connected happens sometimes
-    // so don't bother reporting it.
-    //
-    if(ec && ec != beast::errc::not_connected)
-        throw beast::system_error{ec};
-
-    // If we get here then the connection is closed gracefully
-}
-
