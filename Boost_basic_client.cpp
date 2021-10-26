@@ -53,9 +53,16 @@ Boost_basic_client::BCSendMessageReturn_t Boost_basic_client::sendMessage(
 
     // Declare a container to hold the response
     http::response<http::string_body> res;
+    http::response<http::dynamic_body> res2;
 
     // Receive the HTTP response
-    http::read(stream, buffer, res);
+    http::read(stream, buffer, res2);
+    for( auto const& x : res2 )
+    {
+        std::cout << x.name_string() << " and " << x.value() << std::endl;
+    }
+
+    std::cout << boost::beast::buffers_to_string(res2.body().data()) << std::endl;
 
     // Write the message to standard out
     std::cout << res.body() << std::endl;
